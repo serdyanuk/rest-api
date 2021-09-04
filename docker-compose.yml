@@ -2,8 +2,22 @@ services:
   app:
     image: node:14-alpine
     command: sh -c "yarn install && yarn dev"
+    environment:
+      MONGO_URI: mongodb://root:secret@mongo:27017/
     ports:
       - '3000:3000'
     working_dir: /app
     volumes:
       - ./:/app
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/var/lib/mongo
+volumes:
+  mongodb-data:

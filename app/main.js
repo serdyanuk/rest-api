@@ -1,28 +1,26 @@
 const http = require('http');
-const { Router, util } = require('./lib');
+const { Router } = require('./lib');
+const { index, addItem } = require('./routes');
+const storage = require('./storage');
 
 const router = new Router();
 
-router.get('/', (req, res) => {
-  res.end('hello from router handler');
-});
+router.get('/', index);
+router.post('/add', addItem);
 
-router.get('/items', (req, res) => {
-  res.end('hello from items');
-});
+const server = http.createServer((req, res) => router.handler(req, res));
 
-router.post('/add', async (req, res) => {
-  res.writeHead(200, {
-    'Content-type': 'application/json',
-  });
-  try {
-    const data = await util.parseHTTPBodyToJSON(req);
-    res.end(JSON.stringify(data));
-  } catch (e) {
-    res.end(e.message);
-  }
-});
+storage
+  .init()
+  .then(() => {
+    server.listen(3000, () => console.log('HTTP server running'));
+  })
+  .catch((e) => console.error(e));
 
-http
-  .createServer((req, res) => router.handler(req, res))
-  .listen(3000, () => console.log('Server running'));
+const gracefulShutdown = () => {
+  storage.close();
+};
+
+// process.on('SIGINT', gracefulShutdown);
+// process.on('SIGTERM', gracefulShutdown);
+// process.on('SIGUSR2', gracefulShutdown);
