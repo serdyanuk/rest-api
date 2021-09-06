@@ -2,13 +2,15 @@ const { util } = require('../lib');
 const storage = require('../storage');
 
 const index = async (req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html',
+  });
   try {
-    const items = await storage.getItems();
-    items.forEach((item) => {
-      console.log(2);
+    const [rows, fields] = await storage.getItems();
+    rows.forEach((item) => {
+      res.write(`item: ${item.name}, completed ${item.completed}<br>`);
     });
-    res.end('');
-    console.log(3);
+    res.end('<br>items list');
   } catch (e) {
     res.end(e.message);
   }

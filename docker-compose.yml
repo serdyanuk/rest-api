@@ -3,21 +3,22 @@ services:
     image: node:14-alpine
     command: sh -c "yarn install && yarn dev"
     environment:
-      MONGO_URI: mongodb://root:secret@mongo:27017/
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: todos
+      MYSQL_HOST: mysql
     ports:
       - '3000:3000'
     working_dir: /app
     volumes:
       - ./:/app
-  mongo:
-    image: mongo
+  mysql:
+    image: mysql:8
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: secret
-    ports:
-      - 27017:27017
     volumes:
-      - mongodb-data:/var/lib/mongo
+      - todos-mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
 volumes:
-  mongodb-data:
+  todos-mysql:

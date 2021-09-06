@@ -8,10 +8,12 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
+    "mysql2": "^2.3.0",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   },
   "dependencies": {
-    "mongodb": "^4.1.1"
+    "mongodb": "^4.1.1",
+    "wait-port": "^0.2.9"
   }
 }
