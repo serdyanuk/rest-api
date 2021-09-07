@@ -6,9 +6,11 @@ const index = async (req, res) => {
     'Content-type': 'text/html',
   });
   try {
-    const [rows, fields] = await storage.getItems();
-    rows.forEach((item) => {
-      res.write(`item: ${item.name}, completed ${item.completed}<br>`);
+    const items = await storage.getItems();
+    items.forEach((item) => {
+      res.write(
+        `item: id(${item.id}) ${item.name}, completed ${item.completed}<br>`
+      );
     });
     res.end('<br>items list');
   } catch (e) {
@@ -30,7 +32,25 @@ const addItem = async (req, res) => {
   }
 };
 
+const deleteItem = async (req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html',
+  });
+  try {
+    const postData = await util.parseHTTPBodyToJSON(req);
+    if (typeof postData.id === 'number') {
+      await storage.deleteItem(postData.id);
+      res.end('success');
+    } else {
+      res.end('please send item id for delete');
+    }
+  } catch (e) {
+    res.end(e.message);
+  }
+};
+
 module.exports = {
   index,
   addItem,
+  deleteItem,
 };

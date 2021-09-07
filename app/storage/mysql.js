@@ -29,7 +29,12 @@ const addItem = async (name) => {
 };
 
 const getItems = async () => {
-  return await connection.execute('SELECT * FROM items');
+  const [rows] = await connection.execute('SELECT * FROM items');
+  return rows;
+};
+
+const deleteItem = async (id) => {
+  await connection.execute('DELETE FROM items WHERE id = ?', [id]);
 };
 
 module.exports = {
@@ -37,4 +42,5 @@ module.exports = {
   close,
   addItem,
   getItems,
+  deleteItem,
 };

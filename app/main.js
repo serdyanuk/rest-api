@@ -1,12 +1,13 @@
 const http = require('http');
 const { Router } = require('./lib');
-const { index, addItem } = require('./routes');
+const { index, addItem, deleteItem } = require('./routes');
 const storage = require('./storage');
 
 const router = new Router();
 
 router.get('/', index);
 router.post('/add', addItem);
+router.post('/delete', deleteItem);
 
 const server = http.createServer((req, res) => router.handler(req, res));
 
