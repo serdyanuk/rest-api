@@ -18,6 +18,9 @@ const init = async () => {
   await connection.execute(
     'CREATE TABLE IF NOT EXISTS items (id int AUTO_INCREMENT, `name` varchar(255), completed boolean, PRIMARY KEY(id))'
   );
+  await connection.execute(
+    'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, login VARCHAR(32), password VARCHAR(64), PRIMARY KEY(id), UNIQUE(login))'
+  );
 };
 
 const close = async () => {};
