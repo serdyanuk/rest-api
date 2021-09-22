@@ -1,15 +1,11 @@
-const { index, addItem, deleteItem } = require('./routes');
 const storage = require('./storage');
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const { items } = require('./routes');
 const app = express();
 
 app.use(bodyParser.json());
-
-app.get('/', index);
-app.post('/add', addItem);
-app.post('/delete', deleteItem);
+app.use(items);
 
 storage
   .init()
