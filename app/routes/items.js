@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const storage = require('../storage');
+const storeItems = require('../store/items');
 
 router.get('/items', async (req, res) => {
   try {
-    const items = await storage.getItems();
+    const items = await storeItems.getItems();
     res.json(items);
   } catch (e) {
     res.json({
@@ -16,7 +16,7 @@ router.post('/items', async (req, res) => {
   try {
     const itemName = req.body.name;
     if (itemName) {
-      await storage.addItem(itemName);
+      await storeItems.addItem(itemName);
       res.json({ success: true });
     } else {
       res.json({ error: 'please send name' });
@@ -29,7 +29,7 @@ router.post('/items', async (req, res) => {
 router.delete('/items/:id', async (req, res) => {
   try {
     const itemId = parseInt(req.params.id);
-    await storage.deleteItem(itemId);
+    await storeItems.deleteItem(itemId);
     res.json({ success: true });
   } catch (e) {
     res.json({ error: e.message });

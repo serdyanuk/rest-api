@@ -22,25 +22,10 @@ const init = async () => {
 
 const close = async () => {};
 
-const addItem = async (name) => {
-  await connection.execute('INSERT INTO items(name, completed) VALUES(?,0)', [
-    name,
-  ]);
-};
-
-const getItems = async () => {
-  const [rows] = await connection.execute('SELECT * FROM items');
-  return rows;
-};
-
-const deleteItem = async (id) => {
-  await connection.execute('DELETE FROM items WHERE id = ?', [id]);
-};
+const getConnection = () => connection;
 
 module.exports = {
   init,
   close,
-  addItem,
-  getItems,
-  deleteItem,
+  getConnection,
 };
