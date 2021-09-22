@@ -1,4 +1,3 @@
-const { util } = require('../lib');
 const storage = require('../storage');
 
 const index = async (req, res) => {
@@ -12,7 +11,7 @@ const index = async (req, res) => {
         `item: id(${item.id}) ${item.name}, completed ${item.completed}<br>`
       );
     });
-    res.end('<br>items list');
+    res.end('<br>items list 1');
   } catch (e) {
     res.end(e.message);
   }
@@ -20,9 +19,9 @@ const index = async (req, res) => {
 
 const addItem = async (req, res) => {
   try {
-    const postData = await util.parseHTTPBodyToJSON(req);
-    if (postData.name) {
-      await storage.addItem(postData.name);
+    const itemName = req.body.name;
+    if (itemName) {
+      await storage.addItem(itemName);
       res.end('success');
     } else {
       res.end('please send name');
@@ -37,9 +36,9 @@ const deleteItem = async (req, res) => {
     'Content-type': 'text/html',
   });
   try {
-    const postData = await util.parseHTTPBodyToJSON(req);
-    if (typeof postData.id === 'number') {
-      await storage.deleteItem(postData.id);
+    const itemId = req.body.id;
+    if (typeof itemId === 'number') {
+      await storage.deleteItem(itemId);
       res.end('success');
     } else {
       res.end('please send item id for delete');

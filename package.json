@@ -13,6 +13,8 @@
     "prettier": "^2.3.2"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
     "wait-port": "^0.2.9"
   }
 }

@@ -1,20 +1,20 @@
-const http = require('http');
-const { Router } = require('./lib');
 const { index, addItem, deleteItem } = require('./routes');
 const storage = require('./storage');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const router = new Router();
+const app = express();
 
-router.get('/', index);
-router.post('/add', addItem);
-router.post('/delete', deleteItem);
+app.use(bodyParser.json());
 
-const server = http.createServer((req, res) => router.handler(req, res));
+app.get('/', index);
+app.post('/add', addItem);
+app.post('/delete', deleteItem);
 
 storage
   .init()
   .then(() => {
-    server.listen(3000, () => console.log('HTTP server running'));
+    app.listen(3000, () => console.log('HTTP server running'));
   })
   .catch((e) => console.error(e));
 
