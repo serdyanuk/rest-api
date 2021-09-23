@@ -2,6 +2,7 @@
 
 const router = require('express').Router();
 const storeItems = require('../store/items');
+const { auth } = require('../middlewares/auth');
 
 router.get('/items', async (req, res) => {
   try {
@@ -14,7 +15,7 @@ router.get('/items', async (req, res) => {
   }
 });
 
-router.post('/items', async (req, res) => {
+router.post('/items', auth, async (req, res) => {
   try {
     const itemName = req.body.name;
     if (itemName) {
@@ -28,7 +29,7 @@ router.post('/items', async (req, res) => {
   }
 });
 
-router.delete('/items/:id', async (req, res) => {
+router.delete('/items/:id', auth, async (req, res) => {
   try {
     const itemId = parseInt(req.params.id);
     await storeItems.deleteItem(itemId);

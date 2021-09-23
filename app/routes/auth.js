@@ -14,7 +14,6 @@ router.post('/auth', async (req, res) => {
     if (!user) {
       throw authenticateError;
     }
-    console.log(password, user.password);
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
       throw authenticateError;
