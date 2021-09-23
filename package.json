@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon app/main.js",
-    "lint": "eslint ./app/**/*"
+    "lint": "eslint ./app/**"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
