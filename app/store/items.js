@@ -1,3 +1,5 @@
+'use strict';
+
 const { getConnection } = require('./connection');
 
 const addItem = async (name) => {

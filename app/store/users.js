@@ -1,3 +1,5 @@
+'use strict';
+
 const { getConnection } = require('./connection');
 const bcrypt = require('bcrypt');
 const config = require('../conifg');

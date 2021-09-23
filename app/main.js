@@ -1,3 +1,5 @@
+'use strict';
+
 const store = require('./store');
 const express = require('express');
 const { items, users, auth } = require('./routes');
