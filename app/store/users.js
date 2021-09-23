@@ -31,7 +31,15 @@ const getUserByLogin = async (login) => {
   return user;
 };
 
+const getUserById = async (id) => {
+  const [[user]] = await getConnection().execute(
+    'SELECT * FROM users WHERE id = ?'[id]
+  );
+  return user;
+};
+
 module.exports = {
   addUser,
   getUserByLogin,
+  getUserById,
 };
