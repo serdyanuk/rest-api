@@ -1,10 +1,9 @@
 const store = require('./store');
 const express = require('express');
-const bodyParser = require('body-parser');
 const { items, users } = require('./routes');
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use([items, users]);
 
 store
