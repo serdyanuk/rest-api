@@ -13,7 +13,7 @@ const addUser = async (login, password) => {
   const hash = await bcrypt.hash(password, config.PASSWORD_HASH_SALT);
   const [res] = await getConnection().execute(
     'INSERT INTO users SET login = ?, password = ?',
-    [login, password]
+    [login, hash]
   );
   return {
     id: res.insertId,
@@ -21,6 +21,15 @@ const addUser = async (login, password) => {
   };
 };
 
+const getUserByLogin = async (login) => {
+  const [[user]] = await getConnection().execute(
+    'SELECT * FROM users WHERE login = ?',
+    [login]
+  );
+  return user;
+};
+
 module.exports = {
   addUser,
+  getUserByLogin,
 };

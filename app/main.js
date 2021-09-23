@@ -1,10 +1,10 @@
 const store = require('./store');
 const express = require('express');
-const { items, users } = require('./routes');
+const { items, users, auth } = require('./routes');
 const app = express();
 
 app.use(express.json());
-app.use([items, users]);
+app.use([items, users, auth]);
 
 store
   .init()
