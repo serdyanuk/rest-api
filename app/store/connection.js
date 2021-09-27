@@ -1,14 +1,12 @@
 'use strict';
 
 const mysql = require('mysql2/promise');
-const waitPort = require('wait-port');
 
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
 let connection = null;
 
 const init = async () => {
-  await waitPort({ host: MYSQL_HOST, port: 3306 });
   connection = await mysql.createConnection({
     host: MYSQL_HOST,
     password: MYSQL_PASSWORD,

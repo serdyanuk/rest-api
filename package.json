@@ -17,7 +17,6 @@
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "joi": "^17.4.2",
-    "jsonwebtoken": "^8.5.1",
-    "wait-port": "^0.2.9"
+    "jsonwebtoken": "^8.5.1"
   }
 }
