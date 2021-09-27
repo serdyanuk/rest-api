@@ -33,7 +33,8 @@ const getUserByLogin = async (login) => {
 
 const getUserById = async (id) => {
   const [[user]] = await getConnection().execute(
-    'SELECT * FROM users WHERE id = ?'[id]
+    'SELECT * FROM users WHERE id = ?',
+    [id]
   );
   return user;
 };
