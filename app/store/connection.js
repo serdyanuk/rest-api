@@ -16,10 +16,10 @@ const init = async () => {
   console.log('CONNECTED TO MYSQL');
 
   await connection.execute(
-    'CREATE TABLE IF NOT EXISTS items (id int AUTO_INCREMENT, `name` varchar(255), completed boolean, PRIMARY KEY(id))'
+    'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, login VARCHAR(32), password VARCHAR(64), PRIMARY KEY(id), UNIQUE(login))'
   );
   await connection.execute(
-    'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, login VARCHAR(32), password VARCHAR(64), PRIMARY KEY(id), UNIQUE(login))'
+    'CREATE TABLE IF NOT EXISTS items (id int AUTO_INCREMENT, `name` varchar(255), completed boolean, authorId int not null, foreign key (authorId) references users(id), PRIMARY KEY(id))'
   );
 };
 

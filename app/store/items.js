@@ -2,10 +2,10 @@
 
 const { getConnection } = require('./connection');
 
-const addItem = async (name) => {
+const addItem = async (name, authorId) => {
   await getConnection().execute(
-    'INSERT INTO items(name, completed) VALUES(?,0)',
-    [name]
+    'INSERT INTO items(name, completed, authorId) VALUES(?,0,?)',
+    [name, authorId]
   );
 };
 

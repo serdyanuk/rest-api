@@ -19,7 +19,7 @@ router.post('/items', auth, async (req, res) => {
   try {
     const itemName = req.body.name;
     if (itemName) {
-      await storeItems.addItem(itemName);
+      await storeItems.addItem(itemName, req.user.id);
       res.json({ success: true });
     } else {
       res.json({ error: 'please send name' });
