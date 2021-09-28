@@ -5,8 +5,10 @@ const usersStore = require('../store/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../conifg');
+const validate = require('../middlewares/validation');
+const validations = require('../validations');
 
-router.post('/auth', async (req, res) => {
+router.post('/auth', validate(validations.user.auth), async (req, res) => {
   const { login, password } = req.body;
   try {
     const authenticateError = new Error('Wrong login or password');
