@@ -5,6 +5,7 @@ services:
     depends_on:
       - mysql
     environment:
+      NODE_ENV: $NODE_ENV
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
       MYSQL_DATABASE: $MYSQL_DATABASE
