@@ -5,6 +5,9 @@ const logger = require('../conifg/logger');
 
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
+/**
+ * @type {mysql.Connection}
+ */
 let connection = null;
 
 const init = async () => {
@@ -26,6 +29,10 @@ const init = async () => {
 
 const close = async () => {};
 
+/**
+ *
+ * @returns {mysql.Connection}
+ */
 const getConnection = () => connection;
 
 module.exports = {

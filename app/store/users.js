@@ -4,6 +4,12 @@ const { getConnection } = require('./connection');
 const bcrypt = require('bcrypt');
 const config = require('../conifg');
 
+/**
+ *
+ * @param {string} login
+ * @param {string} password
+ * @returns {Promise<object>}
+ */
 const addUser = async (login, password) => {
   const [[user]] = await getConnection().execute(
     'SELECT id FROM users WHERE login = ?',
@@ -23,6 +29,11 @@ const addUser = async (login, password) => {
   };
 };
 
+/**
+ *
+ * @param {string} login
+ * @returns {Promise<object|null>}
+ */
 const getUserByLogin = async (login) => {
   const [[user]] = await getConnection().execute(
     'SELECT * FROM users WHERE logisn = ?',
@@ -31,6 +42,11 @@ const getUserByLogin = async (login) => {
   return user;
 };
 
+/**
+ *
+ * @param {number} id
+ * @returns {Promise<object|null>}
+ */
 const getUserById = async (id) => {
   const [[user]] = await getConnection().execute(
     'SELECT * FROM users WHERE id = ?',
