@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
     const internalError = new InternalError();
     res.status(internalError.httpCode).json({ error: internalError.message });
   }
-  next();
+  return next();
 };
 
 module.exports = errorHandler;

@@ -8,7 +8,7 @@ const validate = (schema) => async (req, res, next) => {
   } catch (e) {
     return next(new BadRequest(e.message));
   }
-  next();
+  return next();
 };
 
 module.exports = validate;

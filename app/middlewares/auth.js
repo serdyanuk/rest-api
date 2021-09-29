@@ -11,12 +11,12 @@ const auth = async (req, res, next) => {
     const payload = jwt.verify(token, conifg.JWT_SECRET_KEY);
     const user = await usersStore.getUserById(payload.id);
     req.user = user;
-    next();
+    return next();
   } catch (e) {
     if (e instanceof jwt.JsonWebTokenError) {
       return next(new UnauthorizedError());
     }
-    next(e);
+    return next(e);
   }
 };
 
