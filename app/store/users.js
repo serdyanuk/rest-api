@@ -25,7 +25,7 @@ const addUser = async (login, password) => {
 
 const getUserByLogin = async (login) => {
   const [[user]] = await getConnection().execute(
-    'SELECT * FROM users WHERE login = ?',
+    'SELECT * FROM users WHERE logisn = ?',
     [login]
   );
   return user;

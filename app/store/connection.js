@@ -1,6 +1,7 @@
 'use strict';
 
 const mysql = require('mysql2/promise');
+const logger = require('../conifg/logger');
 
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
@@ -13,7 +14,7 @@ const init = async () => {
     user: MYSQL_USER,
     database: MYSQL_DATABASE,
   });
-  console.log('CONNECTED TO MYSQL');
+  logger.info('Connected to MySQL');
 
   await connection.execute(
     'CREATE TABLE IF NOT EXISTS users (id int AUTO_INCREMENT, login VARCHAR(32), password VARCHAR(64), PRIMARY KEY(id), UNIQUE(login))'

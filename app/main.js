@@ -5,6 +5,7 @@ const express = require('express');
 const { items, users, auth } = require('./routes');
 const helmet = require('helmet');
 const errorHandler = require('./middlewares/error');
+const logger = require('./conifg/logger');
 
 const app = express();
 
@@ -16,9 +17,9 @@ app.use(errorHandler);
 store
   .init()
   .then(() => {
-    app.listen(3000, () => console.log('HTTP server running'));
+    app.listen(3000, () => logger.info('Server running on PORT: 3000'));
   })
-  .catch((e) => console.error(e));
+  .catch((e) => logger.error(e.message));
 
 const gracefulShutdown = () => {
   store.close();
