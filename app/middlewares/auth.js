@@ -2,6 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const conifg = require('../conifg');
+const { UnauthorizedError } = require('../errors');
 const usersStore = require('../store/users');
 
 const auth = async (req, res, next) => {
@@ -12,7 +13,10 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
-    res.json({ error: 'Require authorization' });
+    if (e instanceof jwt.JsonWebTokenError) {
+      return next(new UnauthorizedError());
+    }
+    next(e);
   }
 };
 

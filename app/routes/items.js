@@ -6,14 +6,12 @@ const { auth } = require('../middlewares/auth');
 const validate = require('../middlewares/validation');
 const validations = require('../validations');
 
-router.get('/items', async (req, res) => {
+router.get('/items', async (req, res, next) => {
   try {
     const items = await storeItems.getItems();
     res.json(items);
   } catch (e) {
-    res.json({
-      error: e.message,
-    });
+    return next(e);
   }
 });
 
@@ -21,7 +19,7 @@ router.post(
   '/items',
   auth,
   validate(validations.items.addItem),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const itemName = req.body.name;
       if (itemName) {
@@ -31,18 +29,18 @@ router.post(
         res.json({ error: 'please send name' });
       }
     } catch (e) {
-      res.json({ error: e.message });
+      return next(e);
     }
   }
 );
 
-router.delete('/items/:id', auth, async (req, res) => {
+router.delete('/items/:id', auth, async (req, res, next) => {
   try {
     const itemId = parseInt(req.params.id);
     await storeItems.deleteItem(itemId);
     res.json({ success: true });
   } catch (e) {
-    res.json({ error: e.message });
+    return next(e);
   }
 });
 

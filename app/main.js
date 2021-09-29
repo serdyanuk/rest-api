@@ -4,12 +4,14 @@ const store = require('./store');
 const express = require('express');
 const { items, users, auth } = require('./routes');
 const helmet = require('helmet');
+const errorHandler = require('./middlewares/error');
 
 const app = express();
 
 app.use(helmet());
 app.use(express.json());
 app.use([items, users, auth]);
+app.use(errorHandler);
 
 store
   .init()
