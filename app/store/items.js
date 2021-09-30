@@ -17,7 +17,7 @@ const addItem = async (name, authorId) => {
 
 /**
  *
- * @returns {Promise<[]object>}
+ * @returns {Promise<Array>}
  */
 const getItems = async () => {
   const [rows] = await getConnection().execute('SELECT * FROM items');

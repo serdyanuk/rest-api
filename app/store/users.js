@@ -32,7 +32,7 @@ const addUser = async (login, password) => {
 /**
  *
  * @param {string} login
- * @returns {Promise<object|null>}
+ * @returns {Promise<?object>}
  */
 const getUserByLogin = async (login) => {
   const [[user]] = await getConnection().execute(
@@ -45,7 +45,7 @@ const getUserByLogin = async (login) => {
 /**
  *
  * @param {number} id
- * @returns {Promise<object|null>}
+ * @returns {Promise<?object>}
  */
 const getUserById = async (id) => {
   const [[user]] = await getConnection().execute(
