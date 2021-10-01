@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../conifg');
 const { UnauthorizedError } = require('../errors');
 
-exports.auth = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   const { login, password } = req.body;
   try {
     const error = new UnauthorizedError('Wrong login or password');

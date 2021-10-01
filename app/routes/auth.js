@@ -5,7 +5,7 @@ const validate = require('../middlewares/validation');
 const validations = require('../validations');
 const controller = require('../controllers/auth.controller');
 
-router.post('/auth', validate(validations.user.auth), controller.auth);
+router.post('/login', validate(validations.user.auth), controller.login);
 
 router.post(
   '/register',
