@@ -6,12 +6,15 @@ const { items, auth } = require('./routes');
 const helmet = require('helmet');
 const errorHandler = require('./middlewares/error');
 const logger = require('./conifg/logger');
+const swaggerSetup = require('./conifg/swagger');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 
 app.use(helmet());
 app.use(express.json());
 app.use([items, auth]);
+app.use('/api-docs', swaggerUi.serve, swaggerSetup());
 app.use(errorHandler);
 
 let server = null;
