@@ -3,7 +3,7 @@
 const { getConnection } = require('./connection');
 const bcrypt = require('bcrypt');
 const config = require('../conifg');
-
+const { BadRequest } = require('../errors');
 /**
  *
  * @param {string} login
@@ -16,7 +16,7 @@ const addUser = async (login, password) => {
     [login]
   );
   if (user) {
-    throw new Error('This login already exists');
+    throw new BadRequest('This login already exists');
   }
   const hash = await bcrypt.hash(password, config.PASSWORD_HASH_SALT);
   const [res] = await getConnection().execute(
