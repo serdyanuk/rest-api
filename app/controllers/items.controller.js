@@ -1,5 +1,6 @@
 'use strict';
 const storeItems = require('../store/items');
+const BadRequest = require('../errors');
 
 exports.getItems = async (req, res, next) => {
   try {
@@ -17,7 +18,7 @@ exports.addItem = async (req, res, next) => {
       await storeItems.addItem(itemName, req.user.id);
       res.json({ success: true });
     } else {
-      res.json({ error: 'please send name' });
+      return next(new BadRequest('Item name is invalid'));
     }
   } catch (e) {
     return next(e);

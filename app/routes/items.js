@@ -17,6 +17,16 @@ const controller = require('../controllers/items.controller');
  *          type: string
  *        authorId:
  *          type: number
+ *  responses:
+ *    UnauthoraziedError:
+ *      description: Access token is missing or invalid
+ *  securitySchemes:
+ *    bearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: jwt
+ * security:
+ *  - bearerAuth: []
  */
 
 /**
@@ -38,14 +48,18 @@ router.get('/items', controller.getItems);
  * /items:
  *  post:
  *    description: add todo item
+ *    security:
+ *      - bearerAuth: []
  *    responses:
  *      200:
  *        content:
  *          application/json:
  *            schema:
  *              type: object
- *      403:
- *        description: user bad request
+ *      400:
+ *        description: invalid input data
+ *      401:
+ *        $ref: '#/components/responses/UnauthoraziedError'
  */
 router.post('/items', auth, controller.addItem);
 
@@ -54,12 +68,17 @@ router.post('/items', auth, controller.addItem);
  * /items/{id}:
  *  delete:
  *    description: delete item
+ *    parameters:
+ *      - name: id
+ *        required: true
  *    responses:
  *      200:
  *        content:
  *          application/json:
  *            schema:
  *              type: object
+ *      401:
+ *        $ref: '#/components/responses/UnauthoraziedError'
  */
 router.delete('/items/:id', auth, controller.deleteItem);
 
