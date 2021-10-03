@@ -1,9 +1,9 @@
 'use strict';
 
-const { getConnection } = require('./connection');
 const bcrypt = require('bcrypt');
 const config = require('../conifg');
 const { BadRequest } = require('../errors');
+const { pool } = require('./connection');
 /**
  *
  * @param {string} login
@@ -11,22 +11,29 @@ const { BadRequest } = require('../errors');
  * @returns {Promise<object>}
  */
 const addUser = async (login, password) => {
-  const [[user]] = await getConnection().execute(
-    'SELECT id FROM users WHERE login = ?',
-    [login]
-  );
-  if (user) {
-    throw new BadRequest('This login already exists');
+  const client = await pool.connect();
+  try {
+    const { rows } = await client.query(
+      'SELECT id FROM users WHERE login = $1',
+      [login]
+    );
+    const user = rows[0];
+    if (user) {
+      throw new BadRequest('This login already exists');
+    }
+    const passwordHash = await bcrypt.hash(password, config.PASSWORD_HASH_SALT);
+    const res = await client.query(
+      'INSERT INTO users (login, password) VALUES($1, $2) RETURNING id',
+      [login, passwordHash]
+    );
+    const { id } = res.rows[0];
+    return {
+      id,
+      hash: passwordHash,
+    };
+  } finally {
+    client.release();
   }
-  const hash = await bcrypt.hash(password, config.PASSWORD_HASH_SALT);
-  const [res] = await getConnection().execute(
-    'INSERT INTO users SET login = ?, password = ?',
-    [login, hash]
-  );
-  return {
-    id: res.insertId,
-    hash,
-  };
 };
 
 /**
@@ -35,11 +42,16 @@ const addUser = async (login, password) => {
  * @returns {Promise<?object>}
  */
 const getUserByLogin = async (login) => {
-  const [[user]] = await getConnection().execute(
-    'SELECT * FROM users WHERE login = ?',
-    [login]
-  );
-  return user;
+  const client = await pool.connect();
+  try {
+    const { rows } = await client.query(
+      'SELECT * FROM users WHERE login = $1',
+      [login]
+    );
+    return rows[0] ?? null;
+  } finally {
+    client.release();
+  }
 };
 
 /**
@@ -48,11 +60,15 @@ const getUserByLogin = async (login) => {
  * @returns {Promise<?object>}
  */
 const getUserById = async (id) => {
-  const [[user]] = await getConnection().execute(
-    'SELECT * FROM users WHERE id = ?',
-    [id]
-  );
-  return user;
+  const client = await pool.connect();
+  try {
+    const { rows } = await client.query('SELECT * FROM users WHERE id = $1', [
+      id,
+    ]);
+    return rows[0] ?? null;
+  } finally {
+    client.release();
+  }
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 'use strict';
 
-const { getConnection } = require('./connection');
+const { pool } = require('./connection');
 
 /**
  *
@@ -9,10 +9,15 @@ const { getConnection } = require('./connection');
  * @returns {Promise<void>}
  */
 const addItem = async (name, authorId) => {
-  await getConnection().execute(
-    'INSERT INTO items(name, completed, authorId) VALUES(?,0,?)',
-    [name, authorId]
-  );
+  const client = await pool.connect();
+  try {
+    await client.query('INSERT INTO items(name, authorId) VALUES($1, $2)', [
+      name,
+      authorId,
+    ]);
+  } finally {
+    client.release();
+  }
 };
 
 /**
@@ -20,8 +25,13 @@ const addItem = async (name, authorId) => {
  * @returns {Promise<Array>}
  */
 const getItems = async () => {
-  const [rows] = await getConnection().execute('SELECT * FROM items');
-  return rows;
+  const client = await pool.connect();
+  try {
+    const res = await client.query('SELECT * FROM items');
+    return res.rows;
+  } catch {
+    client.release();
+  }
 };
 
 /**
@@ -30,7 +40,12 @@ const getItems = async () => {
  * @returns {Promise<void>}
  */
 const deleteItem = async (id) => {
-  await getConnection().execute('DELETE FROM items WHERE id = ?', [id]);
+  const client = await pool.connect();
+  try {
+    await client.query('DELETE FROM items WHERE id = $1', [id]);
+  } catch {
+    client.release();
+  }
 };
 
 module.exports = {
