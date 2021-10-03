@@ -1,6 +1,6 @@
 'use strict';
 const storeItems = require('../store/items');
-const BadRequest = require('../errors');
+const { BadRequest } = require('../errors');
 
 exports.getItems = async (req, res, next) => {
   try {
