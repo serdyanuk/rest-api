@@ -17,7 +17,7 @@ exports.login = async (req, res, next) => {
     if (!isValid) {
       throw error;
     }
-    const token = jwt.sign({ id: user.id }, config.JWT_SECRET_KEY);
+    const token = jwtSign(user.id);
     res.json({
       token,
     });
@@ -30,11 +30,20 @@ exports.register = async (req, res, next) => {
   const { login, password } = req.body;
   try {
     const user = await usersStore.addUser(login, password);
-    const token = jwt.sign({ id: user.id }, config.JWT_SECRET_KEY);
+    const token = jwtSign(user.id);
     res.json({
       token,
     });
   } catch (e) {
     return next(e);
   }
+};
+
+/**
+ *
+ * @param {number} id - is user id
+ * @returns {string}
+ */
+const jwtSign = (id) => {
+  return jwt.sign({ id }, config.JWT_SECRET_KEY);
 };
