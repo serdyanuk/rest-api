@@ -1,4 +1,5 @@
 'use strict';
+
 const pg = require('pg');
 
 const { PG_USER, PG_PASSWORD, PG_DB, PG_HOST } = process.env;
