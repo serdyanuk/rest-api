@@ -1,8 +1,8 @@
 'use strict';
 
 const pg = require('pg');
-
 const { PG_USER, PG_PASSWORD, PG_DB, PG_HOST } = process.env;
+const logger = require('../conifg/logger');
 
 const pool = new pg.Pool({
   user: PG_USER,
@@ -10,8 +10,6 @@ const pool = new pg.Pool({
   host: PG_HOST,
   database: PG_DB,
 });
-
-const logger = require('../conifg/logger');
 
 const init = async () => {
   const client = await pool.connect();
